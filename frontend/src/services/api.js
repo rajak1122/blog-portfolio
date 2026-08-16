@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://backend-tau-blond-47.vercel.app/api";
+const API_URL = "https://blog-portfolio-hbjl.onrender.com/api";
 
 export const submitContact = async (contactData) => {
   const response = await axios.post(`${API_URL}/contact`, contactData);
