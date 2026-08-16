@@ -37,4 +37,25 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  try {
+    const blog = await Blog.findById(req.params.id);
+
+    if (!blog) {
+      return res.status(404).json({
+        message: "Blog not found",
+      });
+    }
+
+    res.status(200).json(blog);
+  } catch (error) {
+    console.error("Failed to fetch blog:", error);
+
+    res.status(500).json({
+      message: "Failed to fetch blog",
+      error: error.message,
+    });
+  }
+});
+
 module.exports = router;

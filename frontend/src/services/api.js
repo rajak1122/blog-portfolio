@@ -19,3 +19,8 @@ export const getBlogs = async () => {
 
   return response.data;
 };
+
+export const getBlogById = async (id) => {
+  const response = await axios.get(`${API_URL}/blogs/${id}`);
+  return response.data;
+};

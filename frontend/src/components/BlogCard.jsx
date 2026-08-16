@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router-dom";
+
 export default function BlogCard({ blog }) {
+  const navigate = useNavigate();
   return (
     <article className="group overflow-hidden rounded-2xl border border-gray-200 bg-white transition-all duration-200 hover:-translate-y-1 hover:shadow-md">
       {/* Blog Image */}
@@ -28,7 +31,10 @@ export default function BlogCard({ blog }) {
         </p>
 
         {/* Read More */}
-        <button className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-gray-900 transition-all duration-200 hover:gap-3">
+        <button
+          onClick={() => navigate(`/blogs/${blog._id}`)}
+          className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-gray-900 transition-all duration-200 hover:gap-3"
+        >
           Read more
           <span>→</span>
         </button>

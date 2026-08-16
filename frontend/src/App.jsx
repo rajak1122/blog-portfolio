@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
-
+import BlogDetails from "./pages/BlogDetails";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Blogs from "./pages/Blogs";
@@ -41,6 +41,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Contact />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/blogs/:id"
+          element={
+            <ProtectedRoute>
+              <BlogDetails />
             </ProtectedRoute>
           }
         />

@@ -41,7 +41,7 @@ export default function Blogs() {
     <div className="p-5 flex flex-col gap-5">
       {admin && <BlogForm />}
 
-      <div>
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {blogs.map((blog) => (
           <BlogCard key={blog._id} blog={blog} />
         ))}
