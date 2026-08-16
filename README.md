@@ -6,7 +6,7 @@ The project is built to showcase my profile, projects, skills, and technical exp
 
 ## 🚀 Live Demo
 
-Coming soon...
+https://frontend-rho-ivory-92.vercel.app/login
 
 ## ✨ Features
 
