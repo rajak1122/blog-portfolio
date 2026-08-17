@@ -8,6 +8,7 @@ export default function Contact() {
     email: "",
     message: "",
   });
+  const [status, setStatus] = useState("idle");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,14 +22,23 @@ export default function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setStatus("sending");
+
     try {
       const data = await submitContact(formData);
 
       console.log(data);
-      alert("Message sent successfully!");
+
+      setStatus("success");
+
+      setFormData({
+        name: "",
+        email: "",
+        message: "",
+      });
     } catch (error) {
       console.error(error);
-      alert("Failed to send message");
+      setStatus("error");
     }
   };
 
@@ -123,6 +133,71 @@ export default function Contact() {
                 Send Message
               </button>
             </form>
+            {status !== "idle" && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 px-6 backdrop-blur-sm">
+                <div className="w-full max-w-sm rounded-2xl bg-white p-8 text-center shadow-xl">
+                  {status === "sending" && (
+                    <>
+                      <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-2 border-gray-200 border-t-gray-900"></div>
+
+                      <h2 className="text-lg font-semibold text-gray-900">
+                        Sending your response...
+                      </h2>
+
+                      <p className="mt-2 text-sm text-gray-500">
+                        Please wait a moment.
+                      </p>
+                    </>
+                  )}
+
+                  {status === "success" && (
+                    <>
+                      <div className="mx-auto mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-green-100 text-green-600">
+                        ✓
+                      </div>
+
+                      <h2 className="text-lg font-semibold text-gray-900">
+                        Response sent successfully!
+                      </h2>
+
+                      <p className="mt-2 text-sm text-gray-500">
+                        Thanks for reaching out. I'll get back to you soon.
+                      </p>
+
+                      <button
+                        onClick={() => setStatus("idle")}
+                        className="mt-6 rounded-xl bg-gray-950 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-gray-800"
+                      >
+                        Close
+                      </button>
+                    </>
+                  )}
+
+                  {status === "error" && (
+                    <>
+                      <div className="mx-auto mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-red-100 text-red-600">
+                        !
+                      </div>
+
+                      <h2 className="text-lg font-semibold text-gray-900">
+                        Failed to send response
+                      </h2>
+
+                      <p className="mt-2 text-sm text-gray-500">
+                        Something went wrong. Please try again.
+                      </p>
+
+                      <button
+                        onClick={() => setStatus("idle")}
+                        className="mt-6 rounded-xl bg-gray-950 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-gray-800"
+                      >
+                        Close
+                      </button>
+                    </>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </main>

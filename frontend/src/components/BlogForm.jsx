@@ -8,6 +8,7 @@ export default function BlogForm() {
     description: "",
     content: "",
   });
+  const [status, setStatus] = useState("idle");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,11 +22,14 @@ export default function BlogForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setStatus("creating");
+
     try {
       const data = await createBlog(formData);
 
       console.log(data);
-      alert("Blog created successfully!");
+
+      setStatus("success");
 
       setFormData({
         title: "",
@@ -37,7 +41,7 @@ export default function BlogForm() {
       console.error(error);
       console.log(error.response?.data);
 
-      alert(error.response?.data?.message || "Failed to create blog");
+      setStatus("error");
     }
   };
   return (
@@ -146,6 +150,73 @@ export default function BlogForm() {
           Publish Blog
         </button>
       </form>
+      {status !== "idle" && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 px-6 backdrop-blur-sm">
+          <div className="w-full max-w-sm rounded-2xl bg-white p-8 text-center shadow-xl">
+            {status === "creating" && (
+              <>
+                <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-2 border-gray-200 border-t-gray-900"></div>
+
+                <h2 className="text-lg font-semibold text-gray-900">
+                  Creating your blog...
+                </h2>
+
+                <p className="mt-2 text-sm text-gray-500">
+                  Please wait a moment.
+                </p>
+              </>
+            )}
+
+            {status === "success" && (
+              <>
+                <div className="mx-auto mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-green-100 text-green-600">
+                  ✓
+                </div>
+
+                <h2 className="text-lg font-semibold text-gray-900">
+                  Blog created successfully!
+                </h2>
+
+                <p className="mt-2 text-sm text-gray-500">
+                  Your blog has been published successfully.
+                </p>
+
+                <button
+                  type="button"
+                  onClick={() => setStatus("idle")}
+                  className="mt-6 rounded-xl bg-gray-950 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-gray-800"
+                >
+                  Close
+                </button>
+              </>
+            )}
+
+            {status === "error" && (
+              <>
+                <div className="mx-auto mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-red-100 text-red-600">
+                  !
+                </div>
+
+                <h2 className="text-lg font-semibold text-gray-900">
+                  Failed to create blog
+                </h2>
+
+                <p className="mt-2 text-sm text-gray-500">
+                  Something went wrong. Please try again.
+                </p>
+
+                <button
+                  type="button"
+                  onClick={() => setStatus("idle")}
+                  className="mt-6 rounded-xl bg-gray-950 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-gray-800"
+                >
+                  Try Again
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

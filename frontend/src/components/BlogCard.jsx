@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-export default function BlogCard({ blog }) {
+export default function BlogCard({ blog, admin, onDelete }) {
   const navigate = useNavigate();
   return (
     <article className="group overflow-hidden rounded-2xl border border-gray-200 bg-white transition-all duration-200 hover:-translate-y-1 hover:shadow-md">
@@ -31,13 +31,24 @@ export default function BlogCard({ blog }) {
         </p>
 
         {/* Read More */}
-        <button
-          onClick={() => navigate(`/blogs/${blog._id}`)}
-          className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-gray-900 transition-all duration-200 hover:gap-3"
-        >
-          Read more
-          <span>→</span>
-        </button>
+        <div className="mt-6 flex items-center justify-between">
+          <button
+            onClick={() => navigate(`/blogs/${blog._id}`)}
+            className="inline-flex items-center gap-2 text-sm font-medium text-gray-900 transition-all duration-200 hover:gap-3"
+          >
+            Read more
+            <span>→</span>
+          </button>
+
+          {admin && (
+            <button
+              onClick={() => onDelete(blog._id)}
+              className="text-sm font-medium text-red-600 transition hover:text-red-800"
+            >
+              Delete
+            </button>
+          )}
+        </div>
       </div>
     </article>
   );

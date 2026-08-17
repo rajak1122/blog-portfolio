@@ -6,6 +6,7 @@ import auth from "../firebase/config";
 export default function Signup() {
   const navigate = useNavigate();
 
+  const [status, setStatus] = useState("idle");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -28,9 +29,11 @@ export default function Signup() {
     e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match");
+      setStatus("error");
       return;
     }
+
+    setStatus("creating");
 
     try {
       const res = await createUserWithEmailAndPassword(
@@ -45,7 +48,7 @@ export default function Signup() {
 
       console.log("User created:", res.user);
 
-      alert("Account created successfully!");
+      setStatus("success");
 
       setFormData({
         name: "",
@@ -55,9 +58,8 @@ export default function Signup() {
       });
     } catch (error) {
       console.error("Signup error:", error);
-      alert(error.message);
+      setStatus("error");
     }
-    navigate("/login");
   };
 
   return (
@@ -188,6 +190,73 @@ export default function Signup() {
               Create Account
             </button>
           </form>
+          {status !== "idle" && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 px-6 backdrop-blur-sm">
+              <div className="w-full max-w-sm rounded-2xl bg-white p-8 text-center shadow-xl">
+                {status === "creating" && (
+                  <>
+                    <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-2 border-gray-200 border-t-gray-900"></div>
+
+                    <h2 className="text-lg font-semibold text-gray-900">
+                      Creating your account...
+                    </h2>
+
+                    <p className="mt-2 text-sm text-gray-500">
+                      Please wait a moment.
+                    </p>
+                  </>
+                )}
+
+                {status === "success" && (
+                  <>
+                    <div className="mx-auto mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-green-100 text-green-600">
+                      ✓
+                    </div>
+
+                    <h2 className="text-lg font-semibold text-gray-900">
+                      Account created successfully!
+                    </h2>
+
+                    <p className="mt-2 text-sm text-gray-500">
+                      Your account is ready. You can now login.
+                    </p>
+
+                    <button
+                      type="button"
+                      onClick={() => navigate("/login")}
+                      className="mt-6 rounded-xl bg-gray-950 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-gray-800"
+                    >
+                      Login
+                    </button>
+                  </>
+                )}
+
+                {status === "error" && (
+                  <>
+                    <div className="mx-auto mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-red-100 text-red-600">
+                      !
+                    </div>
+
+                    <h2 className="text-lg font-semibold text-gray-900">
+                      Failed to create account
+                    </h2>
+
+                    <p className="mt-2 text-sm text-gray-500">
+                      Please check your details and try again.
+                    </p>
+
+                    <button
+                      type="button"
+                      onClick={() => setStatus("idle")}
+                      className="mt-6 rounded-xl bg-gray-950 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-gray-800"
+                    >
+                      Try Again
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
 
           {/* Login */}
           <p className="mt-7 text-center text-sm text-gray-600">

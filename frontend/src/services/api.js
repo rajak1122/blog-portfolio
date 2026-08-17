@@ -24,3 +24,16 @@ export const getBlogById = async (id) => {
   const response = await axios.get(`${API_URL}/blogs/${id}`);
   return response.data;
 };
+
+export const deleteBlog = async (id) => {
+  const response = await axios.delete(`${API_URL}/blogs/${id}`);
+  return response.data;
+};
+
+export const likeBlog = async (id, userId) => {
+  const response = await axios.post(`${API_URL}/blogs/${id}/like`, {
+    userId,
+  });
+
+  return response.data;
+};
