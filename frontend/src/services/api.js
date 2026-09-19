@@ -2,7 +2,7 @@ import axios from "axios";
 import auth from "../firebase/config";
 
 const API = axios.create({
-  baseURL: "https://blog-portfolio-hbjl.onrender.com",
+  baseURL: "https://blog-portfolio-hbjl.onrender.com/api",
 });
 
 // Interceptor to attach current users firebase token ID
