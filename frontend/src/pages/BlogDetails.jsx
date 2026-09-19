@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getBlogById, likeBlog } from "../services/api";
 import auth from "../firebase/config";
+import Footer from "../components/Footer";
 
 export default function BlogDetails() {
   const { id } = useParams();
@@ -77,46 +78,51 @@ export default function BlogDetails() {
   }
 
   return (
-    <article className="mx-auto max-w-4xl px-6 py-12">
-      <p className="text-xs font-medium uppercase tracking-wider text-gray-400">
-        {blog.date}
-      </p>
+    <>
+      <article className="mx-auto max-w-4xl px-6 py-12">
+        <p className="text-xs font-medium uppercase tracking-wider text-gray-400">
+          {blog.date}
+        </p>
 
-      <h1 className="mt-3 text-4xl font-semibold tracking-tight text-gray-950">
-        {blog.title}
-      </h1>
+        <h1 className="mt-3 text-4xl font-semibold tracking-tight text-gray-950">
+          {blog.title}
+        </h1>
 
-      <img
-        src={blog.image}
-        alt={blog.title}
-        className="mt-8 h-[420px] w-full rounded-3xl object-cover"
-      />
+        <img
+          src={blog.image}
+          alt={blog.title}
+          className="mt-8 h-105 w-full rounded-3xl object-cover"
+        />
 
-      <p className="mt-8 text-lg leading-8 text-gray-600">{blog.description}</p>
+        <p className="mt-8 text-lg leading-8 text-gray-600">
+          {blog.description}
+        </p>
 
-      <div className="mt-8 flex items-center justify-between border-y border-gray-200 py-4">
-        <button
-          onClick={handleLike}
-          disabled={liked}
-          className={`inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium transition ${
-            liked
-              ? "bg-red-50 text-red-600"
-              : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-          }`}
-        >
-          <span className="text-lg">{liked ? "♥" : "♡"}</span>
+        <div className="mt-8 flex items-center justify-between border-y border-gray-200 py-4">
+          <button
+            onClick={handleLike}
+            disabled={liked}
+            className={`inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium transition ${
+              liked
+                ? "bg-red-50 text-red-600"
+                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+            }`}
+          >
+            <span className="text-lg">{liked ? "♥" : "♡"}</span>
 
-          {liked ? "Liked" : "Like"}
-        </button>
+            {liked ? "Liked" : "Like"}
+          </button>
 
-        <span className="text-sm text-gray-500">
-          {likeCount} {likeCount === 1 ? "Like" : "Likes"}
-        </span>
-      </div>
+          <span className="text-sm text-gray-500">
+            {likeCount} {likeCount === 1 ? "Like" : "Likes"}
+          </span>
+        </div>
 
-      <div className="mt-8 whitespace-pre-line text-base leading-8 text-gray-800">
-        {blog.content}
-      </div>
-    </article>
+        <div className="mt-8 whitespace-pre-line text-base leading-8 text-gray-800">
+          {blog.content}
+        </div>
+      </article>
+      <Footer />
+    </>
   );
 }

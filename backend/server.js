@@ -6,6 +6,7 @@ const connectDB = require("./config/db");
 
 const contactRoutes = require("./routes/contactRoute");
 const blogRoutes = require("./routes/blogRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 
 const app = express();
 app.use(cors());
@@ -15,6 +16,7 @@ connectDB();
 
 app.use("/api/contact", contactRoutes);
 app.use("/api/blogs", blogRoutes);
+app.use("/api/admin", adminRoutes);
 
 const PORT = process.env.PORT || 3000;
 

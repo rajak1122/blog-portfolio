@@ -6,16 +6,20 @@ import { signOut } from "firebase/auth";
 export default function Navbar() {
   const [log, setLog] = useState(false);
   useEffect(() => {
-    auth.onAuthStateChanged(function (user) {
+    auth.onAuthStateChanged(async function (user) {
       if (user) {
         console.log("User Loggedin");
+
+        // const token = await user.getIdToken(true);
+        // console.log("Firebase ID Token:", token);
+
         setLog(true);
       } else {
         console.log("User Logged out");
         setLog(false);
       }
     });
-  },[]);
+  }, []);
 
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -35,16 +39,16 @@ export default function Navbar() {
   };
 
   const handleLogout = async () => {
-  try {
-    await signOut(auth);
+    try {
+      await signOut(auth);
 
-    console.log("User logged out successfully");
+      console.log("User logged out successfully");
 
-    navigate("/login");
-  } catch (error) {
-    console.error("Logout failed:", error);
-  }
-};
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-gray-200/70 bg-white/90 backdrop-blur-md">
@@ -102,6 +106,18 @@ export default function Navbar() {
             )}
           </button>
 
+          <button
+            onClick={() => handleNavigate("/admin")}
+            className={`cursor-pointer relative text-sm transition-colors duration-200 ${navStyle(
+              "/admin",
+            )}`}
+          >
+            Admin
+            {location.pathname === "/admin" && (
+              <span className="cursor-pointer absolute -bottom-2 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-gray-950"></span>
+            )}
+          </button>
+
           {/* Login */}
           {log && (
             <button
@@ -152,6 +168,15 @@ export default function Navbar() {
               )}`}
             >
               Contact
+            </button>
+
+            <button
+              onClick={() => handleNavigate("/admin")}
+              className={`cursor-pointer py-4 text-left text-sm transition-colors ${navStyle(
+                "/admin",
+              )}`}
+            >
+              Admin
             </button>
 
             {log && (
