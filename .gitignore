@@ -1,5 +1,5 @@
 node_modules/
 .env
 dist/
-config/serviceAccountKey.json
+backend/config/serviceAccountKey.json
 
