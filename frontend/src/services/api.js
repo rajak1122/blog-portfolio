@@ -54,7 +54,7 @@ export const createNewAdminUser = async (firebaseUid) => {
 };
 
 export const revokeAdminAccess = async (id) => {
-  const response = await API.put(`/admin/${id}revoke/`);
+  const response = await API.patch(`/admin/${id}revoke/`);
   return response.data;
 };
 
